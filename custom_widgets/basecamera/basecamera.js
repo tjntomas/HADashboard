@@ -24,6 +24,13 @@ function basecamera(widget_id, url, skin, parameters)
             {"entity": parameters.entity, "initial": self.OnStateAvailable, "update": self.OnStateUpdate},
         ];
 
+    // Some default values for fullscreen function.
+    if ('nofullscreen' in self.parameters && self.parameters.nofullscreen == "on"){
+        self.noFullScreen = true
+    }
+    self.seconds = 1000
+    self.default_fullscream_timeout = 3
+
      // Call the parent constructor to get things moving
 
      WidgetBase.call(self, widget_id, url, skin, parameters, monitored_entities, callbacks);
@@ -33,14 +40,38 @@ function basecamera(widget_id, url, skin, parameters)
     self.timeout = undefined
 
 
-    function OnCameraClick(self) {
-        var root = document.documentElement
-        var fsi = root.requestFullscreen || root.webkitRequestFullscreen || root.mozRequestFullScreen || root.msRequestFullscreen
-        var img = document.getElementById(self.widget_id).getElementsByClassName("img-frame")[0]
-        fsi.call(img)
+    function OnCameraClick(self) 
+    {
+        try {clearTimeout(self.fs_timeout)} catch(err){}
+        if (!self.noFullScreen){  // Only go to full screen if allowed by config.
+            var root = document.documentElement
+
+            // If not in fullscreen, open in fullscreen.
+            if (!document.fullscreenElement){
+                // Get the browser-specific fullscreen function.
+                var fs = root.requestFullscreen || root.webkitRequestFullscreen || root.mozRequestFullScreen || root.msRequestFullscreen
+                img = document.getElementById(self.widget_id).getElementsByClassName("img-frame")[0]
+                fs.call(img)
+                
+                // Use supplied timeout interval if available.
+                if ('fullscreen_timeout' in self.parameters){
+                    self.fs_timeout = setTimeout(function() {OnCameraClick(self)}, self.parameters.fullscreen_timeout * self.seconds);
+                } 
+                // Or use the default timeout.
+                else {
+                    self.fs_timeout = setTimeout(function() {OnCameraClick(self)}, self.default_fullscream_timeout * self.seconds);
+                }
+            } else {
+                // Try all broswer specific close functions.
+                if (document.exitFullscreen){document.exitFullscreen()} 
+                if (document.webkitExitFullscreen){document.webkitExitFullscreen()}
+                if (document.mozCancelFullScreen){document.mozCancelFullScreen()}
+                if (document.msExitFullscreen){document.msExitFullscreen()}
+            }
+        }
     }
 
-     function refresh_frame(self)
+    function refresh_frame(self)
     {
         if ("base_url" in self.parameters && "access_token" in self) {
             var endpoint = '/api/camera_proxy/'
