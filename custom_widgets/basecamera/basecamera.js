@@ -36,7 +36,7 @@ function basecamera(widget_id, url, skin, parameters)
     function OnCameraClick(self) {
         var root = document.documentElement
         var fsi = root.requestFullscreen || root.webkitRequestFullscreen || root.mozRequestFullScreen || root.msRequestFullscreen
-        img = document.getElementById(self.widget_id).getElementsByClassName("img-frame")[0]
+        var img = document.getElementById(self.widget_id).getElementsByClassName("img-frame")[0]
         fsi.call(img)
     }
 
