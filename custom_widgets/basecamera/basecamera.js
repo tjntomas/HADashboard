@@ -62,7 +62,7 @@ function basecamera(widget_id, url, skin, parameters)
                     self.fs_timeout = setTimeout(function() {OnCameraClick(self)}, self.default_fullscream_timeout * self.seconds);
                 }
             } else {
-                // Try all broswer specific close functions.
+                // Try all browser specific close functions.
                 if (document.exitFullscreen){document.exitFullscreen()} 
                 if (document.webkitExitFullscreen){document.webkitExitFullscreen()}
                 if (document.mozCancelFullScreen){document.mozCancelFullScreen()}
