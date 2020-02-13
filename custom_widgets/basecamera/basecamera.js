@@ -29,7 +29,7 @@ function basecamera(widget_id, url, skin, parameters)
         self.noFullScreen = true
     }
     self.seconds = 1000
-    self.default_fullscream_timeout = 3
+    self.default_fullscream_timeout = 30
 
      // Call the parent constructor to get things moving
 
