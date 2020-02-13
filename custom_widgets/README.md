@@ -1,4 +1,4 @@
-Test for updating the HADashboard camera widget, only reccomended to test this if you are a patient person. This is not for regular use.
+Test for updating the HADashboard camera widget, only recommended to test this if you are a patient person. This is not for regular use.
 
 Just place all files in your custom_widgets folder.
 There are two config options:
