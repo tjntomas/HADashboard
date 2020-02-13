@@ -1,6 +1,6 @@
 Test for updating the HADashboard camera widget, only recommended to test this if you are a patient person. This is not for regular use.
 
-Just place all files in your custom_widgets folder.
+Just place all files in your custom_widgets folder, except for the README.md file.
 There are two config options:
 ````
   fullscreen_timeout: 3  # Timeout in seconds. Defaults to 30 seconds
